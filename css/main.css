@@ -1,0 +1,489 @@
+﻿/* =========================================================
+   RESET & BASE
+========================================================= */
+
+* {
+  box-sizing: border-box;
+  font-family: system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #0e0f13;
+  color: #eaeaf0;
+}
+
+.cv {
+  max-width: 800px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+/* =========================================================
+   HEADER / INTRO
+========================================================= */
+
+.intro h1 {
+  margin-bottom: 6px;
+}
+
+.role {
+  opacity: 0.7;
+  margin-top: 0;
+}
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+.section {
+  margin-top: 48px;
+}
+
+/* =========================================================
+   CARD BASE
+========================================================= */
+
+.card {
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  margin-top: 12px;
+  overflow: hidden;
+}
+
+/* =========================================================
+   CARD SUMMARY (HEADER ROW)
+========================================================= */
+
+.card summary {
+  cursor: pointer;
+  list-style: none;
+
+  background: var(--summary-bg, transparent);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.card summary::-webkit-details-marker {
+  display: none;
+}
+
+/* left group (role + company) */
+.card summary .left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.card summary .role {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.card summary .company {
+  font-size: 0.75em;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.85);
+  white-space: nowrap;
+}
+
+.card summary .date {
+  font-weight: 400;
+  opacity: 0.6;
+  font-size: 0.9em;
+  white-space: nowrap;
+}
+
+.card summary .right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.report-link {
+  text-decoration: none;
+  font-size: 0.95rem;
+  line-height: 1;
+
+  padding: 4px 6px;
+  border-radius: 6px;
+
+  color: #dfe9ff;
+  background: rgba(120, 180, 255, 0.10);
+  border: 1px solid rgba(120, 180, 255, 0.25);
+
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.report-link:hover {
+  background: rgba(120, 180, 255, 0.22);
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   CARD VARIANTS (RELEVANCE)
+========================================================= */
+
+/* main */
+.card.is-main {
+  border-color: rgba(180,180,200,0.8);
+}
+
+.card.is-main summary {
+  padding: 20px 20px;
+  font-size: 1.1rem;
+}
+
+/* secondary */
+.card.is-secondary {
+  border-color: rgba(180,180,200,0.5);
+}
+
+.card.is-secondary summary {
+  padding: 13px 15px;
+  font-size: 0.96rem;
+}
+
+/* minor */
+.card.is-minor {
+  border-color: rgba(180,180,200,0.2);
+}
+
+.card.is-minor summary {
+  padding: 8px 8px;
+  font-size: 0.84rem;
+}
+
+/* pinned */
+.card.is-pinned {
+  border-color: rgba(180,180,255,0.5);
+  background-color: rgba(200,200,250,0.1);
+}
+
+/* =========================================================
+   CARD CONTENT (BASE + VARIANTS)
+========================================================= */
+
+.card .content {
+  position: relative;
+  padding: 16px;
+  border-top: 1px solid rgba(180,180,200,0.2);
+  line-height: 1.5;
+  background: var(--content-bg, transparent);
+  background-image: var(--content-bg-img);
+  background-size: cover;
+  background-position: center;
+}
+
+.card .content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background-image: var(--content-bg-img);
+  background-size: cover;
+  background-position: center;
+
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+.card .content > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* main */
+.card.is-main .content {
+  padding: 22px 22px 24px;
+  font-size: 1rem;
+  color: rgba(180,180,250,0.85);
+}
+
+/* secondary */
+.card.is-secondary .content {
+  padding: 14px 16px 16px;
+  font-size: 0.90rem;
+  opacity: 0.90;
+  color: rgba(180,180,250,0.85);
+}
+
+/* minor */
+.card.is-minor .content {
+  padding: 10px 14px 12px;
+  font-size: 0.9rem;
+  opacity: 0.8;
+  color: rgba(180,180,250,0.85);
+}
+
+/* =========================================================
+   CARD OPEN TRANSITION
+========================================================= */
+
+.card .content {
+  opacity: 0;
+  transform: translateY(-10px);
+
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.card[open] .content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   CONTENT LAYOUT MODES
+========================================================= */
+
+/* image on the side */
+.content.layout-side {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 16px;
+  align-items: start;
+}
+
+/* drawer spans full width */
+.content.layout-side .media-more.full {
+  grid-column: 1 / -1;
+}
+
+/* image below text */
+.content.layout-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* =========================================================
+   MEDIA (MAIN PREVIEW)
+========================================================= */
+
+.content .media img,
+.content .media video {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+  object-fit: cover;
+  margin-bottom: 6px;
+}
+
+.media {
+  overflow: hidden;
+}
+
+/* =========================================================
+   MEDIA DRAWER (SHOW MORE)
+========================================================= */
+
+.media-more {
+  margin-top: 8px;
+}
+
+.media-more summary {
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+
+  display: flex;              /* ← IMPORTANT: block-level for centering */
+  align-items: center;
+  justify-content: center;
+
+  margin: 10px auto 0 auto;
+
+  padding: 3px 9px;
+  font-size: 0.6rem;
+  line-height: 0.4;
+
+  border-radius: 999px;
+
+  background: rgba(120, 180, 255, 0.12);
+  border: 1px solid rgba(120, 180, 255, 0.25);
+  color: #dfe9ff;
+
+  opacity: 0.85;
+  transition: opacity 0.2s ease,
+              background 0.2s ease,
+              transform 0.15s ease;
+}
+
+.media-more summary::-webkit-details-marker {
+  display: none;
+}
+
+.media-more summary:hover {
+  opacity: 1;
+  background: rgba(120, 180, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.media-more summary:focus {
+  outline: none;
+}
+
+.media-more[open] summary {
+  opacity: 0.5;
+  background: rgba(120, 180, 255, 0.08);
+}
+
+/* =========================================================
+   MEDIA GRID (EXTRA IMAGES / VIDEOS)
+========================================================= */
+
+.media-more .media-grid {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+
+.media-more img,
+.media-more video {
+  width: 100%;
+  display: block;
+  border-radius: 6px;
+  object-fit: cover;
+  aspect-ratio: 4 / 3;
+}
+
+.media-grid .wide {
+  grid-column: span 2;
+}
+
+/* =========================================================
+   SORT BAR
+========================================================= */
+
+.sort-bar {
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+
+.sort-bar button {
+  background: rgba(255,255,255,0.06);
+  color: #eaeaf0;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.sort-bar button:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+/* =========================================================
+   LIGHTBOX
+========================================================= */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 9999;
+}
+
+.lightbox.open {
+  display: block;
+}
+
+.lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10,12,18,0.85);
+  backdrop-filter: blur(2px);
+}
+
+.lightbox-content {
+  position: relative;
+
+  width: min(900px, 90vw);
+  height: min(600px, 90vh);
+
+  margin: auto;
+  top: 50%;
+  transform: translateY(-50%);
+
+  background: rgba(15,18,28,0.9);
+  border-radius: 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  overflow: hidden;
+}
+
+.lightbox img,
+.lightbox video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.content .media img,
+.media-more img,
+.content .media video,
+.media-more video {
+  cursor: zoom-in;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+
+  width: 32px;
+  height: 32px;
+
+  border-radius: 50%;
+  border: none;
+
+  background: rgba(30,30,40,0.9);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+.lightbox-close:hover {
+  background: rgba(80,120,255,0.9);
+}
+
+/* =========================================================
+   YOUTUBE EMBED
+========================================================= */
+
+.media.video-embed {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.media.video-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
