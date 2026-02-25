@@ -1,6 +1,16 @@
-﻿const lightbox = document.getElementById('lightbox');
+﻿/* =========================================================
+   LIGHTBOX ELEMENTS
+========================================================= */
+
+const lightbox = document.getElementById('lightbox');
 const lbImg = document.getElementById('lightbox-img');
 const lbVideo = document.getElementById('lightbox-video');
+const closeBtn = document.querySelector('.lightbox-close');
+
+
+/* =========================================================
+   LIGHTBOX OPEN (IMAGES & VIDEOS)
+========================================================= */
 
 document.addEventListener('click', e => {
 
@@ -31,14 +41,17 @@ document.addEventListener('click', e => {
   }
 });
 
+
+/* =========================================================
+   LIGHTBOX CLOSE
+========================================================= */
+
 function closeLightbox() {
   lightbox.classList.remove('open');
   lbImg.src = '';
   lbVideo.pause();
   lbVideo.src = '';
 }
-
-const closeBtn = document.querySelector('.lightbox-close');
 
 closeBtn.addEventListener('click', closeLightbox);
 
@@ -48,23 +61,33 @@ document.addEventListener('keydown', e => {
   }
 });
 
+
+/* =========================================================
+   SORTING (EXPERIENCE – DATE / IMPORTANCE ONLY)
+========================================================= */
+
 const sortBtn = document.getElementById("sortBtn");
 const experienceSection = document.getElementById("experience");
 
-const modes = ["date", "role"];
+// only two modes now
+const modes = ["date", "importance"];
 let currentModeIndex = 0;
 
-sortBtn.textContent = "Sort: Date";
+sortBtn.textContent = "Sorting by: Date";
 
 sortBtn.addEventListener("click", () => {
   currentModeIndex = (currentModeIndex + 1) % modes.length;
   const mode = modes[currentModeIndex];
 
-  sortBtn.textContent = "Sort: " + capitalize(mode);
+  sortBtn.textContent =
+    "Sorting by: " + (mode === "date" ? "Date" : "Importance");
+
   sortCards(mode);
 });
 
+
 function sortCards(mode) {
+
   const allCards = Array.from(
     experienceSection.querySelectorAll("details.card")
   );
@@ -78,59 +101,76 @@ function sortCards(mode) {
   );
 
   const sorted = sortable.sort((a, b) => {
+
     if (mode === "date") {
-      return getEndYear(b) - getEndYear(a);
+      return getCardDate(b) - getCardDate(a);
     }
 
-    if (mode === "role") {
-      return getText(a, ".role").localeCompare(getText(b, ".role"));
+    if (mode === "importance") {
+      return getImportance(b) - getImportance(a);
     }
 
     return 0;
   });
 
-  // rebuild section order:
-  // pinned first (in original order), then sorted rest
   [...pinned, ...sorted].forEach(card => {
     experienceSection.appendChild(card);
   });
+
 }
 
-function getText(card, selector) {
-  const el = card.querySelector(selector);
-  return el ? el.textContent.trim().toLowerCase() : "";
+
+/* =========================================================
+   SORT HELPERS
+========================================================= */
+
+function getCardDate(card) {
+  const value = card.dataset.date;
+  if (!value) return 0;
+
+  return new Date(value).getTime();
 }
 
-function getEndYear(card) {
-  const dateEl = card.querySelector(".date");
-  if (!dateEl) return 0;
-
-  const text = dateEl.textContent;
-  const match = text.match(/(\d{4})(?!.*\d{4})/);
-
-  return match ? parseInt(match[1], 10) : 0;
+function getImportance(card) {
+  const value = card.dataset.importance;
+  return value ? parseInt(value, 10) : 0;
 }
 
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
+
+/* =========================================================
+   MEDIA DRAWER (SHOW MORE / SHOW LESS)
+========================================================= */
 
 document.querySelectorAll('.media-more').forEach(details => {
-  const summary = details.querySelector('summary');
 
+  const summary = details.querySelector('summary');
   const original = summary.textContent.trim();
 
   details.addEventListener('toggle', () => {
     summary.textContent = details.open ? 'Show less' : original;
   });
+
 });
 
+
+/* =========================================================
+   PREVENT REPORT LINK FROM TOGGLING CARD
+========================================================= */
+
 document.addEventListener("click", e => {
+
   const link = e.target.closest(".report-link");
+
   if (link) {
     e.stopPropagation();
   }
+
 });
+
+
+/* =========================================================
+   EXPAND / COLLAPSE ALL CARDS
+========================================================= */
 
 const expandAllBtn = document.getElementById("expandAllBtn");
 
@@ -146,5 +186,8 @@ expandAllBtn.addEventListener("click", () => {
     card.open = allExpanded;
   });
 
-  expandAllBtn.textContent = allExpanded ? "Collapse all" : "Expand all";
+  expandAllBtn.textContent = allExpanded
+    ? "Collapse all"
+    : "Expand all";
+
 });

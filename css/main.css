@@ -1,16 +1,57 @@
 ﻿/* =========================================================
+   COLOR CODE
+   Creative Programmer          rgb(120, 160, 255)
+   Game Developer               rgb(170, 120, 255)
+   Animator / Motion Designer   rgb(255, 140, 180)
+   Multimedia Designer          rgb(120, 240, 200)
+   App Designer & Developer     rgb(250, 240, 5)
+   Comic Editor / Editorial     rgb(190, 210, 240)
+   Camera Operator              rgb(140, 200, 255)
+   Interaction Designer         rgb(255, 170, 120)
+   Experimental / Installation  rgb(200, 200, 255)
+
+   style="--content-bg-img: url('../assets/media/test2.png');"
+   style="--summary-bg: rgba(120,240,200,.25); --content-bg: rgba(120,240,200,.15);"
+
+========================================================= */
+/* =========================================================
    RESET & BASE
 ========================================================= */
 
+@font-face {
+  font-family: "Inter";
+  src: url("assets/fonts/Inter-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("assets/fonts/Inter-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SpaceMono";
+  src: url("assets/fonts/SpaceMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 * {
   box-sizing: border-box;
-  font-family: system-ui, sans-serif;
 }
 
 body {
   margin: 0;
   background: #0e0f13;
   color: #eaeaf0;
+
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .cv {
@@ -27,7 +68,7 @@ body {
   margin-bottom: 6px;
 }
 
-.role {
+.intro .role {
   opacity: 0.7;
   margin-top: 0;
 }
@@ -55,7 +96,7 @@ body {
    CARD SUMMARY (HEADER ROW)
 ========================================================= */
 
-.card summary {
+.card > summary {
   cursor: pointer;
   list-style: none;
 
@@ -67,40 +108,46 @@ body {
   gap: 12px;
 }
 
-.card summary::-webkit-details-marker {
+.card > summary::-webkit-details-marker {
   display: none;
 }
 
 /* left group (role + company) */
-.card summary .left {
+.card > summary .left {
   display: flex;
   align-items: center;
   gap: 10px;
   min-width: 0;
 }
 
-.card summary .role {
-  font-weight: 600;
+.card > summary .role {
+  font-weight: 450;
   white-space: nowrap;
 }
 
-.card summary .company {
-  font-size: 0.75em;
-  padding: 2px 8px;
+.card.is-main > summary .role {
+  font-weight: 600;
+}
+
+.card > summary .company {
+  font-family: "SpaceMono", monospace;
+  font-size: 0.72em;
+  letter-spacing: 0.02em;
+  padding: 2px 9px;
   border-radius: 999px;
   background: rgba(255,255,255,0.08);
   color: rgba(255,255,255,0.85);
   white-space: nowrap;
 }
 
-.card summary .date {
+.card > summary .date {
   font-weight: 400;
   opacity: 0.6;
   font-size: 0.9em;
   white-space: nowrap;
 }
 
-.card summary .right {
+.card > summary .right {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -135,9 +182,9 @@ body {
   border-color: rgba(180,180,200,0.8);
 }
 
-.card.is-main summary {
-  padding: 20px 20px;
-  font-size: 1.1rem;
+.card.is-main > summary {
+  padding: 13px 13px;
+  font-size: 1.0rem;
 }
 
 /* secondary */
@@ -145,25 +192,26 @@ body {
   border-color: rgba(180,180,200,0.5);
 }
 
-.card.is-secondary summary {
-  padding: 13px 15px;
-  font-size: 0.96rem;
+.card.is-secondary > summary {
+  padding: 5px 10px;
+  font-size: 1.0rem;
 }
 
-/* minor */
-.card.is-minor {
-  border-color: rgba(180,180,200,0.2);
-}
-
-.card.is-minor summary {
-  padding: 8px 8px;
-  font-size: 0.84rem;
-}
 
 /* pinned */
 .card.is-pinned {
   border-color: rgba(180,180,255,0.5);
   background-color: rgba(200,200,250,0.1);
+}
+
+/* =========================================================
+   FIX: MEDIA DRAWER SUMMARY MUST NOT INHERIT CARD SUMMARY
+========================================================= */
+
+.card .media-more > summary {
+  font-size: 15px !important;
+  padding: 3px 6px !important;
+  font-weight: 400;
 }
 
 /* =========================================================
@@ -176,7 +224,6 @@ body {
   border-top: 1px solid rgba(180,180,200,0.2);
   line-height: 1.5;
   background: var(--content-bg, transparent);
-  background-image: var(--content-bg-img);
   background-size: cover;
   background-position: center;
 }
@@ -201,7 +248,7 @@ body {
 
 /* main */
 .card.is-main .content {
-  padding: 22px 22px 24px;
+  padding: 14px 16px 16px;
   font-size: 1rem;
   color: rgba(180,180,250,0.85);
 }
@@ -209,18 +256,11 @@ body {
 /* secondary */
 .card.is-secondary .content {
   padding: 14px 16px 16px;
-  font-size: 0.90rem;
+  font-size: 1rem;
   opacity: 0.90;
   color: rgba(180,180,250,0.85);
 }
 
-/* minor */
-.card.is-minor .content {
-  padding: 10px 14px 12px;
-  font-size: 0.9rem;
-  opacity: 0.8;
-  color: rgba(180,180,250,0.85);
-}
 
 /* =========================================================
    CARD OPEN TRANSITION
@@ -300,9 +340,9 @@ body {
 
   margin: 10px auto 0 auto;
 
-  padding: 3px 9px;
-  font-size: 0.6rem;
-  line-height: 0.4;
+  padding: 3px 6px;
+  font-size: 10px;
+  line-height: 1;
 
   border-radius: 999px;
 
@@ -336,6 +376,34 @@ body {
 }
 
 /* =========================================================
+   RIGHT SIDE MEDIA BOX (CARD PREVIEW)
+========================================================= */
+
+.content.layout-side .media {
+  width: 100%;
+  max-height: 180px;         /* <- controls how tall the preview can be */
+  border-radius: 6px;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.15);
+
+  align-self: center;
+}
+
+.content.layout-side .media img,
+.content.layout-side .media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;        /* <- THIS is the important part */
+  margin-bottom: 0;
+}
+
+/* =========================================================
    MEDIA GRID (EXTRA IMAGES / VIDEOS)
 ========================================================= */
 
@@ -345,7 +413,6 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 12px;
 }
-
 
 .media-more img,
 .media-more video {
